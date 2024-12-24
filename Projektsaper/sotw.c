@@ -5,7 +5,7 @@
 void spawnmines(int** a, int n, int m) {
     int mines = 0;
 
-    while (mines < 20) {
+    while (mines < 10) {
         int x = rand() % m + 1;
         int y = rand() % n + 1;
 
@@ -45,7 +45,7 @@ void wheremines(int** a, int n, int m) {
 
 }
 
-void rasp(char** b, int n, int m) {
+void rasp(int** a, char** b, int n, int m) {
 
 
 
