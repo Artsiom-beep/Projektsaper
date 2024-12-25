@@ -36,20 +36,14 @@ int main() {
     scanf_s("%d%d", &o, &p);
     a[o][p] = -2;
     spawnmines(a, n, m);
+    a[o][p] = 0;
     wheremines(a, n, m);
 
     char** b = (char**)malloc(n * sizeof(char*));
     for (int i = 0; i < n; i++) {
         b[i] = (char*)malloc(m * sizeof(char));
         for (int j = 0; j < m; j++) {
-            if (a[i + 1][j + 1] == 0)
-                b[i][j] = '*';
-            else if (a[i + 1][j + 1] == -1)
-                b[i][j] = '@';
-            else if (a[i + 1][j + 1] == -2)
-                b[i][j] = 'P';
-            else if(a[i+1][j+1])
-                b[i][j] = a[i+1][j+1] + '0';
+            b[i][j] = '#';
         }
     }
 
@@ -64,6 +58,34 @@ int main() {
 
     write(b, n, m);
    
+    rasp(a, b, n, m, o, p);
+
+    for (int i = 0; i < n + 2; i++) {
+        for (int j = 0; j < m + 2; j++) {
+            printf("%d ", a[i][j]);
+        }
+        printf("\n");
+    }
+
+    printf("\n");
+
+    write(b, n, m);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
     for (int i = 0; i < n+2; i++) {
@@ -77,10 +99,9 @@ int main() {
     }
     free(b);
 
-    printf("A.\n");
-    scanf_s("%d", &p);
-    clear_console();
-    printf("B.\n");
+    
+   
+    
 
 
     return 0;

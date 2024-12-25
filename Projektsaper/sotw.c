@@ -45,9 +45,57 @@ void wheremines(int** a, int n, int m) {
 
 }
 
-void rasp(int** a, char** b, int n, int m) {
+void rasp(int** a, char** b, int n, int m, int o, int p) {
+
+    a[o][p] = -2;
+    b[o - 1][p - 1] = '*';
+
+    if (a[o - 1][p] == 0)
+    {
+        rasp(a, b, n, m, o-1, p);
+
+    }
+    if (a[o + 1][p] == 0) 
+    {
+        rasp(a, b, n, m, o + 1, p);
+
+    }
+
+    if (a[o][p - 1] == 0)
+    {
+        rasp(a, b, n, m, o, p - 1);
+
+    }
+
+    if (a[o][p + 1] == 0)
+    {
+        rasp(a, b, n, m, o, p + 1);
+
+    }
 
 
+    if (a[o - 1][p] > 0)
+    {
+        b[o - 2][p - 1] = a[o - 1][p] + '0';
+
+    }
+    if (a[o + 1][p] > 0)
+    {
+        b[o][p - 1] = a[o + 1][p] + '0';
+
+    }
+
+    if (a[o][p - 1] > 0)
+    {
+        b[o - 1][p - 2] = a[o][p - 1] + '0';
+
+    }
+
+    if (a[o][p + 1] > 0)
+    {
+        b[o - 1][p] = a[o][p + 1] + '0';
+
+    }
 
 
 }
