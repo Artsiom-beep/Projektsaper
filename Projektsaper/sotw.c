@@ -47,7 +47,11 @@ void wheremines(int** a, int n, int m) {
 
 void rasp(int** a, char** b, int n, int m, int o, int p) {
 
-    a[o][p] = -2;
+    if (a[o][p] == 0)
+        a[o][p] = -2;
+    else
+        a[o][p] = -3;
+
     b[o - 1][p - 1] = '*';
 
     if (a[o - 1][p] == 0)
@@ -60,13 +64,11 @@ void rasp(int** a, char** b, int n, int m, int o, int p) {
         rasp(a, b, n, m, o + 1, p);
 
     }
-
     if (a[o][p - 1] == 0)
     {
         rasp(a, b, n, m, o, p - 1);
 
     }
-
     if (a[o][p + 1] == 0)
     {
         rasp(a, b, n, m, o, p + 1);
@@ -77,25 +79,33 @@ void rasp(int** a, char** b, int n, int m, int o, int p) {
     if (a[o - 1][p] > 0)
     {
         b[o - 2][p - 1] = a[o - 1][p] + '0';
+        a[o - 1][p] = -3;
 
     }
     if (a[o + 1][p] > 0)
     {
         b[o][p - 1] = a[o + 1][p] + '0';
-
+        a[o + 1][p] = -3;
     }
-
     if (a[o][p - 1] > 0)
     {
         b[o - 1][p - 2] = a[o][p - 1] + '0';
-
+        a[o][p - 1] = -3;
     }
-
     if (a[o][p + 1] > 0)
     {
         b[o - 1][p] = a[o][p + 1] + '0';
-
+        a[o][p + 1] = -3;
     }
 
 
+}
+
+int check(int** a, int n, int m) {
+    for (int i = 1; i <= n; i++) {
+        for (int j = 1; j <= n; j++) {
+            if (a[i][j] > 0) return 0;
+        }
+    }
+    return 1;
 }

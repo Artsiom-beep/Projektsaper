@@ -71,6 +71,27 @@ int main() {
 
     write(b, n, m);
 
+    while (check(a, n, m) == 0) {
+        
+        scanf_s("%d%d", &o, &p);
+        if (a[o][p] == -1) {
+            printf("!GAME OVER!");
+            return 0;
+        }
+        printf("\n");
+        rasp(a, b, n, m, o, p);
+
+        for (int i = 0; i < n + 2; i++) {
+            for (int j = 0; j < m + 2; j++) {
+                printf("%d ", a[i][j]);
+            }
+            printf("\n");
+        }
+
+        printf("\n");
+
+        write(b, n, m);
+    }
 
 
 
@@ -80,8 +101,7 @@ int main() {
 
 
 
-
-
+    printf("ALL");
 
 
 
