@@ -46,90 +46,35 @@ void wheremines(int** a, int n, int m) {
 }
 
 void rasp(int** a, char** b, int n, int m, int o, int p) {
-
+    
     if (a[o][p] == 0) {
-        a[o][p] = -2;
-        b[o - 1][p - 1] = '.';
+        a[o][p] = -2; 
+        b[o - 1][p - 1] = '.'; 
 
+       
+        for (int dx = -1; dx <= 1; dx++) {
+            for (int dy = -1; dy <= 1; dy++) {
+                if (dx == 0 && dy == 0) continue; 
+                int new_o = o + dx;
+                int new_p = p + dy;
 
-
-
-
-        if (a[o - 1][p] == 0)
-        {
-            rasp(a, b, n, m, o - 1, p);
-
+               
+                if (new_o >= 1 && new_o <= n && new_p >= 1 && new_p <= m) {
+                    if (a[new_o][new_p] == 0) {
+                        rasp(a, b, n, m, new_o, new_p); 
+                    }
+                    else if (a[new_o][new_p] > 0) {
+                        b[new_o - 1][new_p - 1] = a[new_o][new_p] + '0'; 
+                        a[new_o][new_p] = -3; 
+                    }
+                }
+            }
         }
-        if (a[o + 1][p] == 0)
-        {
-            rasp(a, b, n, m, o + 1, p);
-
-        }
-        if (a[o][p - 1] == 0)
-        {
-            rasp(a, b, n, m, o, p - 1);
-
-        }
-        if (a[o][p + 1] == 0)
-        {
-            rasp(a, b, n, m, o, p + 1);
-
-        }
-
-
-        if (a[o - 1][p] > 0)
-        {
-            b[o - 2][p - 1] = a[o - 1][p] + '0';
-            a[o - 1][p] = -3;
-
-        }
-        if (a[o + 1][p] > 0)
-        {
-            b[o][p - 1] = a[o + 1][p] + '0';
-            a[o + 1][p] = -3;
-        }
-        if (a[o][p - 1] > 0)
-        {
-            b[o - 1][p - 2] = a[o][p - 1] + '0';
-            a[o][p - 1] = -3;
-        }
-        if (a[o][p + 1] > 0)
-        {
-            b[o - 1][p] = a[o][p + 1] + '0';
-            a[o][p + 1] = -3;
-        }
-
-
-        if (a[o - 1][p - 1] > 0)
-        {
-            b[o - 2][p - 2] = a[o - 1][p - 1] + '0';
-            a[o - 1][p - 1] = -3;
-
-        }
-        if (a[o - 1][p + 1] > 0)
-        {
-            b[o - 2][p] = a[o - 1][p + 1] + '0';
-            a[o - 1][p + 1] = -3;
-
-        }
-        if (a[o + 1][p - 1] > 0)
-        {
-            b[o][p - 2] = a[o + 1][p - 1] + '0';
-            a[o + 1][p - 1] = -3;
-
-        }
-        if (a[o + 1][p + 1] > 0)
-        {
-            b[o][p] = a[o + 1][p + 1] + '0';
-            a[o + 1][p + 1] = -3;
-
-        }
-
     }
-    else {
-        b[o - 1][p - 1] = a[o][p] + '0';
-        a[o][p] = -3;
+    else if (a[o][p] > 0) {
         
+        b[o - 1][p - 1] = a[o][p] + '0';
+        a[o][p] = -3; 
     }
 }
 

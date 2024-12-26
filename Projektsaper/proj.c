@@ -98,11 +98,15 @@ int main() {
         getchar();
         scanf_s("%c", &symb);
         if (symb == 'r') {
-            scanf_s("%d%d", &o, &p);
+            A1:scanf_s("%d%d", &o, &p);
             clear_console();
             if (a[o][p] == -1) {
                 winner = false;
                 break;
+            }
+            if (a[o][p] == -2 || a[o][p] == -3) {
+                printf("This square is already open! Enter again!\n");
+                goto A1;
             }
             printf("\n");
             rasp(a, b, n, m, o, p);
