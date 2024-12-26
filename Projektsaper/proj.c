@@ -1,6 +1,8 @@
 #include <stdio.h>
+#include <string.h>
 #include <stdlib.h>
 #include <time.h>
+#include <stdbool.h>
 #include "sotw.h"
 
 void clear_console() {
@@ -11,12 +13,35 @@ void clear_console() {
 #endif
 }
 
+typedef struct {
+    char name[255];
+    int score;
+} player;
+
+player top[6];
+
 
 int main() {
+    
+    int points = 0;
+    FILE* text = fopen("Score.txt", "rt");
+    for (int i = 0; i < 5; i++) {
+        char t[255];
+        int y;
+        fscanf_s(text, "%s", t, sizeof(t));
+        fscanf_s(text, "%d", &y);
+        strcpy_s(top[i].name, sizeof(top[i].name), t);
+        top[i].score = y;
+        //printf("%15s %6d \n", top[i].name, top[i].score);
+
+    }
+    fclose(text);
     printf("Hello Player! Insert your first position: ");
 
     srand(time(NULL));
     int n = 9, m = 9;
+
+    
 
     int** a = (int**)malloc((n + 2) * sizeof(int*));
     for (int i = 0; i < n + 2; i++) {
@@ -52,18 +77,12 @@ int main() {
         }
     }
 
-    /*for (int i = 0; i < n + 2; i++) {
-        for (int j = 0; j < m + 2; j++) {
-            printf("%d ", a[i][j]);
-        }
-        printf("\n");
-    }
-    */
+    
+    
 
     printf("\n");
 
     write(b, n, m);
-   
     rasp(a, b, n, m, o, p);
 
    
@@ -72,7 +91,9 @@ int main() {
 
     write(b, n, m);
     char symb;
-    while (check(a, n, m) == 0) {
+    bool winner = true;
+    while (check(a, n, m, &points) == 0) {
+        printf("Score: %d\n", points);
         printf("Flag (f) or dig (r)?\n");
         getchar();
         scanf_s("%c", &symb);
@@ -80,13 +101,20 @@ int main() {
             scanf_s("%d%d", &o, &p);
             clear_console();
             if (a[o][p] == -1) {
-                printf("!GAME OVER!");
-                return 0;
+                winner = false;
+                break;
             }
             printf("\n");
             rasp(a, b, n, m, o, p);
 
 
+            /*for (int i = 0; i < n + 2; i++) {
+                for (int j = 0; j < m + 2; j++) {
+                    printf("%d ", a[i][j]);
+                }
+                printf("\n");
+            }
+            */
 
             write(b, n, m);
         }
@@ -96,13 +124,37 @@ int main() {
             write(b, n, m);
         }
         else
-            printf("Try again! \n");
+            printf("Illegal command! \n");
     }
 
 
 
-    printf("YOU WON!");
+    if (winner) {
+        printf("YOU WON!\nEnter your name:\n");
+    }
+    else {
+        printf("GAME OVER!\n Enter your name:\n");
+    }
 
+    char im[254];
+    //scanf_s("%[^\n]", &im, sizeof(im));
+    scanf_s("%s", &im, sizeof(im));
+    
+    for (int i = 0; i < 5; i++) {
+        if (top[i].score < points) {
+           
+            for (int j = 4; j > i; j--) {
+                strcpy_s(top[j].name, sizeof(top[j].name), top[j - 1].name);
+                top[j].score = top[j - 1].score;
+
+            }
+            
+            strcpy_s(top[i].name, sizeof(top[i].name), im);
+            
+            top[i].score = points;
+            break;
+        }
+    }
 
 
     for (int i = 0; i < n+2; i++) {
@@ -116,10 +168,20 @@ int main() {
     }
     free(b);
 
+    FILE* text2 = fopen("Score.txt", "wt");
+    for (int i = 0; i < 5; i++) {
+       
+        fprintf(text2, "%s\n", top[i].name);
+        fprintf(text2, "%d\n", top[i].score);
+        
+        printf("%15s %6d \n", top[i].name, top[i].score);
+
+    }
+    fclose(text);
     
    
     
-
+    
 
     return 0;
 }

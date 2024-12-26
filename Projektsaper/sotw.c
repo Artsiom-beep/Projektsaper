@@ -49,7 +49,7 @@ void rasp(int** a, char** b, int n, int m, int o, int p) {
 
     if (a[o][p] == 0) {
         a[o][p] = -2;
-        b[o - 1][p - 1] = '*';
+        b[o - 1][p - 1] = '.';
 
 
 
@@ -99,6 +99,32 @@ void rasp(int** a, char** b, int n, int m, int o, int p) {
             a[o][p + 1] = -3;
         }
 
+
+        if (a[o - 1][p - 1] > 0)
+        {
+            b[o - 2][p - 2] = a[o - 1][p - 1] + '0';
+            a[o - 1][p - 1] = -3;
+
+        }
+        if (a[o - 1][p + 1] > 0)
+        {
+            b[o - 2][p] = a[o - 1][p + 1] + '0';
+            a[o - 1][p + 1] = -3;
+
+        }
+        if (a[o + 1][p - 1] > 0)
+        {
+            b[o][p - 2] = a[o + 1][p - 1] + '0';
+            a[o + 1][p - 1] = -3;
+
+        }
+        if (a[o + 1][p + 1] > 0)
+        {
+            b[o][p] = a[o + 1][p + 1] + '0';
+            a[o + 1][p + 1] = -3;
+
+        }
+
     }
     else {
         b[o - 1][p - 1] = a[o][p] + '0';
@@ -107,10 +133,18 @@ void rasp(int** a, char** b, int n, int m, int o, int p) {
     }
 }
 
-int check(int** a, int n, int m) {
+int check(int** a, int n, int m, int *points) {
+    (*points) = 0;
+    for (int i = 1; i <= n; i++) {
+        for (int j = 1; j <= m; j++) {
+            if (a[i][j] == -2 || a[i][j] == -3) (*points)++;
+        }
+    }
+
     for (int i = 1; i <= n; i++) {
         for (int j = 1; j <= m; j++) {
             if (a[i][j] > 0) return 0;
+            
         }
     }
     return 1;
