@@ -81,8 +81,6 @@ int main() {
     
 
     printf("\n");
-
-    write(b, n, m);
     rasp(a, b, n, m, o, p);
 
    
@@ -93,21 +91,30 @@ int main() {
     char symb;
     bool winner = true;
     while (check(a, n, m, &points) == 0) {
+        clear_console();
+        write(b, n, m);
         printf("Score: %d\n", points);
         printf("Flag (f) or dig (r)?\n");
+        
+        A1:
         getchar();
         scanf_s("%c", &symb);
+        scanf_s("%d%d", &o, &p);
         if (symb == 'r') {
-            A1:scanf_s("%d%d", &o, &p);
-            clear_console();
+            if (b[o - 1][p - 1] == 'F') {
+                printf("Illegal command! Try enter command again:\n");
+                goto A1;
+            }
+     
             if (a[o][p] == -1) {
                 winner = false;
                 break;
             }
             if (a[o][p] == -2 || a[o][p] == -3) {
-                printf("This square is already open! Enter again!\n");
+                printf("Illegal command! Try enter command again:\n");
                 goto A1;
             }
+            
             printf("\n");
             rasp(a, b, n, m, o, p);
 
@@ -120,15 +127,22 @@ int main() {
             }
             */
 
-            write(b, n, m);
+            
         }
         else if (symb == 'f') {
-            scanf_s("%d%d", &o, &p);
-            b[o - 1][p - 1] = 'F';
-            write(b, n, m);
+            if (b[o - 1][p - 1] == '#')
+                b[o - 1][p - 1] = 'F';
+            else if (b[o - 1][p - 1] == 'F')
+                b[o - 1][p - 1] = '#';
+            else {
+                printf("Illegal command! Try enter command again:\n");
+                goto A1;
+            }
         }
-        else
-            printf("Illegal command! \n");
+        else {
+            printf("Illegal command! Try enter command again:\n");
+            goto A1;
+        }
     }
 
 
