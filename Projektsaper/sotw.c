@@ -2,10 +2,13 @@
 #include <stdlib.h>
 #include <time.h>
 
-void spawnmines(int** a, int n, int m) {
+void spawnmines(int** a, int n, int m, int level) {
     int mines = 0;
-
-    while (mines < 10) {
+    int minesmax;
+    if (level == 1)minesmax = 10;
+    if (level == 2)minesmax = 40;
+    if (level == 3)minesmax = 99;
+    while (mines < minesmax) {
         int x = rand() % m + 1;
         int y = rand() % n + 1;
 

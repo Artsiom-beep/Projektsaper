@@ -36,10 +36,29 @@ int main() {
 
     }
     fclose(text);
+    printf("Welcome Player! Choose difficulty: \nFirst level: 9x9 10 mines     To choose print 1\nSecond level: 16x16 40 mines      To choose print 2\nThird level: 16x30 99 mines      To choose print 3\nLevel:");
+    int level, n, m;
+    scanf_s("%d", &level);
+    if (level > 3 || level < 1) {
+        printf("Choose from 1 to 3!");
+        scanf_s("%d", &level);
+    }
+    if (level == 1) {
+        n = 9;
+        m = 9;
+    }
+    if (level == 2) {
+        n = 16;
+        m = 16;
+    }
+    if (level == 3) {
+        n = 16;
+        m = 30;
+    }
     printf("Hello Player! Insert your first position: ");
 
     srand(time(NULL));
-    int n = 9, m = 9;
+    
 
     
 
@@ -61,11 +80,12 @@ int main() {
     int o, p;
 
     scanf_s("%d%d", &o, &p);
-    if (o < 1 || o>9 || p < 1 || p>9){ printf("Choose from 1 to 9!");
-    scanf_s("%d%d", &o, &p);
+    if (o < 1 || o>n || p < 1 || p>m){ 
+        printf("Choose from 1 to %d and from 1 to %d!", n, m);
+        scanf_s("%d%d", &o, &p);
         }
     a[o][p] = -2;
-    spawnmines(a, n, m);
+    spawnmines(a, n, m, level);
     a[o][p] = 0;
     wheremines(a, n, m);
 
@@ -92,7 +112,9 @@ int main() {
     bool winner = true;
     while (check(a, n, m, &points) == 0) {
         clear_console();
+        printf("Current map:\n");
         write(b, n, m);
+        points *= level;
         printf("Score: %d\n", points);
         printf("Flag (f) or dig (r)?\n");
         
@@ -151,7 +173,7 @@ int main() {
         printf("YOU WON!\nEnter your name:\n");
     }
     else {
-        printf("GAME OVER!\n Enter your name:\n");
+        printf("GAME OVER!\nEnter your name:\n");
     }
 
     char im[254];
