@@ -28,33 +28,37 @@ int main() {
     for (int i = 0; i < 5; i++) {
         char t[255];
         int y;
-        fscanf_s(text, "%s", t, sizeof(t));
-        fscanf_s(text, "%d", &y);
-        strcpy_s(top[i].name, sizeof(top[i].name), t);
+        fscanf(text, "%s", t);
+        fscanf(text, "%d", &y);
+        strcpy(top[i].name, t);
         top[i].score = y;
-        //printf("%15s %6d \n", top[i].name, top[i].score);
+        //printf("%15s %6d \n", top[i]->name, top[i]->score);
 
     }
     fclose(text);
     printf("Welcome Player! Choose difficulty: \nFirst level: 9x9 10 mines     To choose print 1\nSecond level: 16x16 40 mines      To choose print 2\nThird level: 16x30 99 mines      To choose print 3\nLevel:");
     int level, n, m;
-    scanf_s("%d", &level);
+    scanf("%d", &level);
     if (level > 3 || level < 1) {
         printf("Choose from 1 to 3!");
-        scanf_s("%d", &level);
+        scanf("%d", &level);
     }
-    if (level == 1) {
+    else if (level == 1) {
         n = 9;
         m = 9;
     }
-    if (level == 2) {
+    else if (level == 2) {
         n = 16;
         m = 16;
     }
-    if (level == 3) {
+    else if (level == 3) {
         n = 16;
         m = 30;
     }
+    else {
+	printf("Try again");
+    }
+    
     printf("Hello Player! Insert your first position: ");
 
     srand(time(NULL));
@@ -79,10 +83,10 @@ int main() {
 
     int o, p;
 
-    scanf_s("%d%d", &o, &p);
+    scanf("%d%d", &o, &p);
     if (o < 1 || o>n || p < 1 || p>m){ 
         printf("Choose from 1 to %d and from 1 to %d!", n, m);
-        scanf_s("%d%d", &o, &p);
+        scanf("%d%d", &o, &p);
         }
     a[o][p] = -2;
     spawnmines(a, n, m, level);
@@ -120,8 +124,8 @@ int main() {
         
         A1:
         getchar();
-        scanf_s("%c", &symb);
-        scanf_s("%d%d", &o, &p);
+        scanf("%c", &symb);
+        scanf("%d%d", &o, &p);
         if (symb == 'r') {
             if (b[o - 1][p - 1] == 'F') {
                 printf("Illegal command! Try enter command again:\n");
@@ -178,18 +182,18 @@ int main() {
 
     char im[254];
     //scanf_s("%[^\n]", &im, sizeof(im));
-    scanf_s("%s", &im, sizeof(im));
+    scanf("%s", im);
     
     for (int i = 0; i < 5; i++) {
         if (top[i].score < points) {
            
             for (int j = 4; j > i; j--) {
-                strcpy_s(top[j].name, sizeof(top[j].name), top[j - 1].name);
+                strcpy(top[j].name, top[j - 1].name);
                 top[j].score = top[j - 1].score;
 
             }
             
-            strcpy_s(top[i].name, sizeof(top[i].name), im);
+            strcpy(top[i].name, im);
             
             top[i].score = points;
             break;
